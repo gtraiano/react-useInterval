@@ -7,4 +7,6 @@ Styling from [tuts+](https://webdesign.tutsplus.com/tutorials/building-responsiv
 CSS hearbeat animation from [CodeConvey](https://codeconvey.com/css-heartbeat-monitor-animation/)
 
 ## Scripts
+`npm install` to install dependencies
+
 `npm run dev` to start development server
