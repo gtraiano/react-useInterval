@@ -11,17 +11,17 @@ export default function App() {
 
   // available callbacks (attention: must be regenerated on delay update)
   const callbacks = [
-    function increment() {
-      setCount((c) => c + delay);
+    function increment(step) {
+      setCount((c) => c + step);
     },
-    function decrement() {
-      setCount((c) => c - delay);
+    function decrement(step) {
+      setCount((c) => c - step);
     }
   ];
 
   // callback controls
   const [activeCb, setActiveCb] = useState(0); // active callback index in callbacks array
-  const callback = useCallback(callbacks[activeCb], [activeCb, delay]); // callback to use in interval
+  const callback = useCallback(() => { callbacks[activeCb](delay) }, [activeCb, delay]); // callback to use in interval
 
   // useInterval
   const [id] = useInterval(callback, isRunning ? delay : null);
@@ -38,6 +38,10 @@ export default function App() {
   const handleActiveCbChange = (e) => {
     setActiveCb(Number(e.target.value));
   };
+
+  useEffect(() => {
+    return () => clearInterval(id);
+  }, [])
 
   useEffect(() => {
     document.documentElement.style.setProperty('--heartbeat-rate', `${(delay/1000).toFixed(3)}s`); // adjust heartbeat animation speed
