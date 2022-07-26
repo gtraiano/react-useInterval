@@ -2,6 +2,8 @@ import "./styles.css";
 import { useInterval } from "./hooks/useInterval";
 import { useCallback, useEffect, useState } from "react";
 import HeartBeat from "./components/HeartBeat";
+import IntervalControls from "./components/IntervalControls";
+import IntervalInfo from "./components/IntervalInfo";
 
 export default function App() {
   // interval controls
@@ -49,87 +51,35 @@ export default function App() {
 
   return (
     <div className="App">
-      {/* interval info */}
       <section className="container">
-        <h2>Interval info</h2>
-        <article>
-          <ul className="flex-outer">
-            <li>
-              <label>id</label>
-              <label>{id}</label>
-            </li>
-            <li>
-              <label>active callback</label>
-              <label className="as-is">{callback.name}</label>
-            </li>
-            <li>
-              <label>delay</label>
-              <label>{delay}</label>
-            </li>
-            <li>
-              <label>elapsed</label>
-              <label>{count}</label>
-            </li>
-          </ul>
-        </article>
+        <IntervalInfo props={{
+          id,
+          activeCallbackName: callbacks[activeCb].name,
+          delay,
+          elapsed: count
+        }} />
       </section>
-
-      {/* interval controls */}
       <section className="container">
-        <h2>Interval controls</h2>
-        <form onSubmit={(e) => e.preventDefault()}>
-          <ul className="flex-outer">
-            <li>
-              <label htmlFor="is_running">running</label>
-              <input
-                id="is_running"
-                type="checkbox"
-                checked={isRunning}
-                onChange={handleIsRunningChange}
-              />
-            </li>
-            <li>
-              <label htmlFor="delay">delay</label>
-              <input
-                id="delay"
-                type="range"
-                min="100"
-                max="10000"
-                title={delay}
-                value={delay}
-                onChange={handleDelayChange}
-              />
-            </li>
-            <li style={{ marginTop: "-1.75rem" }}>
-              <label />
-              <input type="number" min="100" max="10000" step="100" value={delay} onChange={handleDelayChange} />
-            </li>
-            <li>
-              <label htmlFor="active_callback">callback</label>
-              <select
-                id="active_callback"
-                value={activeCb}
-                onChange={handleActiveCbChange}
-              >
-                {callbacks.map((cb, i) => (
-                  <option key={i} value={i}>
-                    {cb.name}
-                  </option>
-                ))}
-              </select>
-            </li>
-            <li>
-              <button
-                style={{ marginRight: "auto", marginTop: "2%" }}
-                onClick={() => {
-                  setCount(0);
-                }}
-              >
-                reset elapsed
-              </button>
-            </li>
-          </ul>
-        </form>
+        <IntervalControls props={
+          {
+            isRunning: {
+              value: isRunning,
+              handleIsRunningChange
+            },
+            delay: {
+              value: delay,
+              handleDelayChange
+            },
+            callbacksNames: callbacks.map(cb => cb.name),
+            activeCb: {
+              value: activeCb,
+              handleActiveCbChange
+            },
+            elapsed: {
+              setCount
+            }
+          }
+        }/>
       </section>
       <section>
         <HeartBeat alive={isRunning} />
