@@ -4,7 +4,7 @@ const IntervalControls = ({ props }) => {
     return (
         <>
         <h2>Interval controls</h2>
-        <form onSubmit={(e) => e.preventDefault()}>
+        <form>
           <ul className="flex-outer">
             <li>
               <label htmlFor="is_running">running</label>
@@ -54,6 +54,7 @@ const IntervalControls = ({ props }) => {
             </li>
             <li>
               <button
+                type="button"
                 style={{ marginRight: "auto", marginTop: "2%" }}
                 onClick={() => { props.elapsed.setCount(0); }}
               >
